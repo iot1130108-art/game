@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#18252d">
+  <title>扭蛋式宣導互動系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="." aria-label="回到扭蛋首頁">
+        <span class="brand-mark">✦</span>
+        <span>宣導扭蛋所</span>
+      </a>
+      <div class="topbar-note">每天一點點，讓生活更安心</div>
+    </header>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow">COMMUNITY GACHA / 2026</p>
+        <h1>轉動今天的<br><em>「廉」好習慣</em></h1>
+        <p class="intro-copy">扭一下、開一下，生活知識帶回家</p>
+      </div>
+    </section>
+
+    <section class="game-layout" aria-label="扭蛋遊戲">
+      <div class="machine-stage">
+        <div class="stage-label"><span class="live-dot"></span> 扭蛋機已就緒</div>
+        <div class="machine" id="machine">
+          <div class="machine-top">
+            <div class="shine"></div>
+            <div class="capsule capsule-pink"></div>
+            <div class="capsule capsule-blue"></div>
+            <div class="capsule capsule-yellow"></div>
+            <div class="capsule capsule-green"></div>
+            <div class="machine-title">GOOD<br>TO KNOW</div>
+          </div>
+          <div class="machine-body">
+            <div class="slot"><span></span></div>
+            <div class="machine-panel">
+              <div class="coin">G</div>
+              <div class="handle"><span></span></div>
+            </div>
+          </div>
+          <div class="machine-foot"></div>
+        </div>
+        <div class="ground-shadow"></div>
+        <div class="capsule-result" id="capsule-result" role="button" tabindex="0" aria-label="開啟扭蛋">
+          <div class="result-highlight"></div>
+          <span>?</span>
+        </div>
+        <p class="status-message" id="status-message">準備好就按下抽取，讓好提醒落到你手上。</p>
+        <button class="primary-button" id="draw-button" type="button"><span>✦</span> 開始抽扭蛋</button>
+      </div>
+
+      <aside class="info-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">YOUR LITTLE REMINDER</p>
+            <h2>今天會抽到什麼？</h2>
+          </div>
+          <span class="ticket-count" id="ticket-count">∞</span>
+        </div>
+        <div class="instruction-list">
+          <div class="instruction"><b>01</b><span>按下抽取<br><small>扭蛋機開始轉動</small></span></div>
+          <div class="instruction"><b>02</b><span>點開扭蛋<br><small>看看今日宣導提醒</small></span></div>
+          <div class="instruction"><b>03</b><span>帶走知識<br><small>把宣導內容帶進生活</small></span></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>臺北市中山區公所製作</footer>
+  </main>
+  <div class="modal-backdrop" id="modal" aria-hidden="true">
+    <article class="result-card" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      <button class="close-button" id="close-modal" type="button" aria-label="關閉">×</button>
+      <img class="poster-image" id="poster-image" alt="抽到的宣導圖片">
+      <p class="eyebrow" id="result-category">今日運勢</p>
+      <h2 id="result-title">祝你今天順心如意</h2>
+      <button class="secondary-button" id="again-button" type="button">收下提醒，再抽一顆</button>
+    </article>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
