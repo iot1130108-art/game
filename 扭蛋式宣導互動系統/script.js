@@ -20,31 +20,51 @@ const statusMessage = document.querySelector("#status-message");
 const modal = document.querySelector("#modal");
 let lastIndex = -1;
 let currentReminder = null;
+const posterCache = new Map();
+
+function preloadPoster(filename) {
+  if (!posterCache.has(filename)) {
+    const image = new Image();
+    const loaded = new Promise((resolve, reject) => {
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+    });
+    image.src = `宣導用/${encodeURIComponent(filename)}`;
+    posterCache.set(filename, loaded);
+  }
+  return posterCache.get(filename);
+}
 
 function draw() {
   if (stage.classList.contains("is-spinning")) return;
+  let index;
+  do { index = Math.floor(Math.random() * posterFiles.length); } while (posterFiles.length > 1 && index === lastIndex);
+  currentReminder = posterFiles[index];
+  lastIndex = index;
   stage.classList.remove("has-result");
   stage.classList.add("is-spinning");
   drawButton.disabled = true;
   statusMessage.textContent = "扭蛋機轉動中，今天的提醒正在靠近……";
-  setTimeout(() => {
-    let index;
-    do { index = Math.floor(Math.random() * posterFiles.length); } while (posterFiles.length > 1 && index === lastIndex);
-    lastIndex = index;
-    currentReminder = posterFiles[index];
+  Promise.all([preloadPoster(currentReminder), new Promise(resolve => setTimeout(resolve, 1050))]).then(() => {
     stage.classList.remove("is-spinning");
     stage.classList.add("has-result");
     statusMessage.textContent = "扭蛋掉出來了，點一下把提醒打開！";
     drawButton.disabled = false;
     drawButton.innerHTML = "<span>✦</span> 再抽一顆";
-  }, 1050);
+  }).catch(() => {
+    stage.classList.remove("is-spinning");
+    drawButton.disabled = false;
+    statusMessage.textContent = "圖片載入失敗，請再試一次。";
+  });
 }
 
 function openCapsule() {
   if (!currentReminder || stage.classList.contains("is-spinning")) return;
   const posterImage = document.querySelector("#poster-image");
-  posterImage.src = `宣導用/${encodeURIComponent(currentReminder)}`;
-  posterImage.alt = `抽到的宣導圖片：${currentReminder}`;
+  preloadPoster(currentReminder).then(() => {
+    posterImage.src = `宣導用/${encodeURIComponent(currentReminder)}`;
+    posterImage.alt = `抽到的宣導圖片：${currentReminder}`;
+  });
   document.querySelector("#result-category").textContent = "今日運勢";
   document.querySelector("#result-title").textContent = blessings[Math.floor(Math.random() * blessings.length)];
   modal.classList.add("is-open");
